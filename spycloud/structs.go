@@ -1,215 +1,433 @@
 package spycloud
 
+import "time"
+
 type ResponseResults struct {
 	Cursor  string         `json:"cursor"`
 	Hits    int            `json:"hits"`
-	Results []BreachRecord `json:"results"`
+	Results []BreachRecord `bson:"results" json:"results"`
+}
+
+type ResponseResultsMongoDb struct {
+	Cursor  string                `json:"cursor"`
+	Hits    int                   `json:"hits"`
+	Results []BreachRecordMongoDb `json:"results"`
 }
 
 type BreachRecord struct {
-	DocumentId                    string   `json:"document_id"`
-	SourceId                      int      `json:"source_id"`
-	SpycloudPublishDate           string   `json:"spycloud_publish_date"`
-	Severity                      int      `json:"severity"`
-	ActiveInvestor                string   `json:"active_investor"`
-	Address1                      string   `json:"address_1"`
-	Address2                      string   `json:"address_2"`
-	Age                           string   `json:"age"`
-	Birthplace                    string   `json:"birthplace"`
-	BuysOnline                    string   `json:"buys_online"`
-	CatOwner                      string   `json:"cat_owner"`
-	ChristianFamily               string   `json:"christian_family"`
-	City                          string   `json:"city"`
-	CompanyName                   string   `json:"company_name"`
-	Country                       string   `json:"country"`
-	County                        string   `json:"county"`
-	CreditRating                  string   `json:"credit_rating"`
-	DateOfDeath                   string   `json:"date_of_death"`
-	DeviceModel                   string   `json:"device_model"`
-	Dob                           string   `json:"dob"`
-	DogOwner                      string   `json:"dog_owner"`
-	DriversLicense                string   `json:"drivers_license"`
-	EcFirstName                   string   `json:"ec_first_name"`
-	EcLastName                    string   `json:"ec_last_name"`
-	EcPhone                       string   `json:"ec_phone"`
-	EcPostalCode                  string   `json:"ec_postal_code"`
-	EcRelation                    string   `json:"ec_relation"`
-	Education                     string   `json:"education"`
-	EstimatedIncome               string   `json:"estimated_income"`
-	EthnicGroup                   string   `json:"ethnic_group"`
-	Ethnicity                     string   `json:"ethnicity"`
-	Fax                           string   `json:"fax"`
-	FirstName                     string   `json:"first_name"`
-	Gender                        string   `json:"gender"`
-	Geolocation                   string   `json:"geolocation"`
-	Grandchildren                 string   `json:"grandchildren"`
-	HasAirConditioning            string   `json:"has_air_conditioning"`
-	HasAmexCard                   string   `json:"has_amex_card"`
-	HasCreditCards                string   `json:"has_credit_cards"`
-	HasChildren                   string   `json:"has_children"`
-	HasDiscoverCard               string   `json:"has_discover_card"`
-	HasMasterCard                 string   `json:"has_master_card"`
-	HasPets                       string   `json:"has_pets"`
-	HasSwimmingPool               string   `json:"has_swimming_pool"`
-	HasVisaCard                   string   `json:"has_visa_card"`
-	HobbiesAndInterests           string   `json:"hobbies_and_interests"`
-	HomePage                      string   `json:"home_page"`
-	HomeBuiltYear                 string   `json:"home_built_year"`
-	HomePurchaseDate              string   `json:"home_purchase_date"`
-	HomePurchasePrice             string   `json:"home_purchase_price"`
-	HomeTransactionType           string   `json:"home_transaction_type"`
-	HomeValue                     string   `json:"home_value"`
-	Industry                      string   `json:"industry"`
-	Isp                           string   `json:"isp"`
-	InvestmentsPersonal           string   `json:"investments_personal"`
-	IPAddresses                   []string `json:"ip_addresses"`
-	IsSmoker                      string   `json:"is_smoker"`
-	Language                      string   `json:"language"`
-	LastName                      string   `json:"last_name"`
-	MaritalStatus                 string   `json:"marital_status"`
-	MiddleName                    string   `json:"middle_name"`
-	MortgageAmount                string   `json:"mortgage_amount"`
-	MortgageLenderName            string   `json:"mortgage_lender_name"`
-	MortgageLoanType              string   `json:"mortgage_loan_type"`
-	MortgageRate                  string   `json:"mortgage_rate"`
-	NameSuffix                    string   `json:"name_suffix"`
-	NationalId                    string   `json:"national_id"`
-	NetWorth                      string   `json:"net_worth"`
-	NumberChildren                string   `json:"number_children"`
-	PassportCountry               string   `json:"passport_country"`
-	PassportExpDate               string   `json:"passport_exp_date"`
-	PassportIssueDate             string   `json:"passport_issue_date"`
-	PassportNumber                string   `json:"passport_number"`
-	PayableTo                     string   `json:"payable_to"`
-	Phone                         string   `json:"phone"`
-	PoliticalAffiliation          string   `json:"political_affiliation"`
-	PostalCode                    string   `json:"postal_code"`
-	Religion                      string   `json:"religion"`
-	ResidenceLengthYears          string   `json:"residence_length_years"`
-	SewerType                     string   `json:"sewer_type"`
-	SingleParent                  string   `json:"single_parent"`
-	SocialSecurityNumber          string   `json:"social_security_number"`
-	SsnLastFour                   string   `json:"ssn_last_four"`
-	State                         string   `json:"state"`
-	Timezone                      string   `json:"timezone"`
-	Title                         string   `json:"title"`
-	VehicleIdentificationNumber   string   `json:"vehicle_identification_number"`
-	VehicleMake                   string   `json:"vehicle_make"`
-	VehicleModel                  string   `json:"vehicle_model"`
-	VoterId                       string   `json:"voter_id"`
-	VoterRegistrationDate         string   `json:"voter_registration_date"`
-	WaterType                     string   `json:"water_type"`
-	SocialAim                     []string `json:"social_aim"`
-	SocialAboutme                 []string `json:"social_aboutme"`
-	SocialAgnellist               []string `json:"social_agnellist"`
-	SocialBehance                 []string `json:"social_behance"`
-	SocialCrunchbase              []string `json:"social_crunchbase"`
-	SocialDribble                 []string `json:"social_dribble"`
-	SocialFacebook                []string `json:"social_facebook"`
-	SocialFlickr                  []string `json:"social_flickr"`
-	SocialFoursquare              []string `json:"social_foursquare"`
-	SocialGithub                  []string `json:"social_github"`
-	SocialGitlab                  []string `json:"social_gitlab"`
-	SocialGravatar                []string `json:"social_gravatar"`
-	SocialGoogle                  []string `json:"social_google"`
-	SocialIcq                     []string `json:"social_icq"`
-	SocialIndeed                  []string `json:"social_indeed"`
-	SocialInstagram               []string `json:"social_instagram"`
-	SocialKlout                   []string `json:"social_klout"`
-	SocialLindin                  []string `json:"social_lindin"`
-	SocialMedium                  []string `json:"social_medium"`
-	SocialMeetup                  []string `json:"social_meetup"`
-	SocialMsn                     []string `json:"social_msn"`
-	SocialMyspace                 []string `json:"social_myspace"`
-	SocialOther                   []string `json:"social_other"`
-	SocialPintrest                []string `json:"social_pintrest"`
-	SocialQuora                   []string `json:"social_quora"`
-	SocialReddit                  []string `json:"social_reddit"`
-	SocialSkype                   []string `json:"social_skype"`
-	SocialSoundcloud              []string `json:"social_soundcloud"`
-	SocialStackoverflow           []string `json:"social_stackoverflow"`
-	SocialSteam                   []string `json:"social_steam"`
-	SocialTelegram                []string `json:"social_telegram"`
-	SocialTwitter                 []string `json:"social_twitter"`
-	SocialViemo                   []string `json:"social_viemo"`
-	SocialWeibo                   []string `json:"social_weibo"`
-	SocialWhatsapp                []string `json:"social_whatsapp"`
-	SocialWordpress               []string `json:"social_wordpress"`
-	SocialXing                    []string `json:"social_xing"`
-	SocialYahoo                   []string `json:"social_yahoo"`
-	SocialYoutube                 []string `json:"social_youtube"`
-	BankNumber                    string   `json:"bank_number"`
-	CcBin                         string   `json:"cc_bin"`
-	CcCode                        string   `json:"cc_code"`
-	CcExpiration                  string   `json:"cc_expiration"`
-	CcLastFour                    string   `json:"cc_last_four"`
-	CcNumber                      string   `json:"cc_number"`
-	CcType                        string   `json:"cc_type"`
-	Taxid                         string   `json:"taxid"`
-	BotnetId                      string   `json:"botnet_id"`
-	FromCookiesData               string   `json:"from_cookies_data"`
-	FromPostData                  string   `json:"from_post_data"`
-	InfectedMachineId             string   `json:"infected_machine_id"`
-	InfectedTime                  string   `json:"infected_time"`
-	LogonServer                   string   `json:"logon_server"`
-	SystemInstallDate             string   `json:"system_install_date"`
-	SystemModel                   string   `json:"system_model"`
-	TargetDomain                  string   `json:"target_domain"`
-	TargetUrl                     string   `json:"target_url"`
-	UserAgent                     string   `json:"user_agent"`
-	UserBrowser                   string   `json:"user_browser"`
-	UserHostname                  string   `json:"user_hostname"`
-	UserOs                        string   `json:"user_os"`
-	UserSysDomain                 string   `json:"user_sys_domain"`
-	UserSysRegisteredOrganization string   `json:"user_sys_registered_organization"`
-	UserSysRegisteredOwner        string   `json:"user_sys_registered_owner"`
-	AccountCaption                string   `json:"account_caption"`
-	AccountImageUrl               string   `json:"account_image_url"`
-	AccountLastActivityTime       string   `json:"account_last_activity_time"`
-	AccountLoginTime              string   `json:"account_login_time"`
-	AccountModificationTime       string   `json:"account_modification_time"`
-	AccountNickname               string   `json:"account_nickname"`
-	AccountNotes                  string   `json:"account_notes"`
-	AccountPasswordDate           string   `json:"account_password_date"`
-	AccountSecret                 string   `json:"account_secret"`
-	AccountSecretQuestion         string   `json:"account_secret_question"`
-	AccountSignupTime             string   `json:"account_signup_time"`
-	AccountStatus                 string   `json:"account_status"`
-	AccountTitle                  string   `json:"account_title"`
-	AccountType                   string   `json:"account_type"`
-	BackupEmail                   string   `json:"backup_email"`
-	BackupEmailUsername           string   `json:"backup_email_username"`
-	Domain                        string   `json:"domain"`
-	Email                         string   `json:"email"`
-	EmailDomain                   string   `json:"email_domain"`
-	EmailUsername                 string   `json:"email_username"`
-	NumPosts                      int      `json:"num_posts"`
-	Password                      string   `json:"password"`
-	PasswordPlaintext             string   `json:"password_plaintext"`
-	PasswordType                  string   `json:"password_type"`
-	Salt                          string   `json:"salt"`
-	Service                       string   `json:"service"`
-	ServiceExpiration             string   `json:"service_expiration"`
-	Username                      string   `json:"username"`
-	EmailStatus                   string   `json:"email_status"`
-	CrmLastActivity               string   `json:"crm_last_activity"`
-	CrmContactCreated             string   `json:"crm_contact_created"`
-	CompanyWebSite                string   `json:"company_web_site"`
-	CompanyRevenue                string   `json:"company_revenue"`
-	Employees                     string   `json:"employees"`
-	JobTitle                      string   `json:"job_title"`
-	JonLevel                      string   `json:"jon_level"`
-	JobStartDate                  string   `json:"job_start_date"`
-	LinkedinNumberConnections     int      `json:"linkedin_number_connections"`
-	NacisCode                     string   `json:"nacis_code"`
-	SicCode                       string   `json:"sic_code"`
-	HealthInsuranceId             string   `json:"health_insurance_id"`
-	HealthInsuranceProvider       string   `json:"health_insurance_provider"`
-	Desc                          string   `json:"desc"`
-	Guid                          string   `json:"guid"`
-	PastbinKey                    string   `json:"pastbin_key"`
-	RecordAdditionalDate          string   `json:"record_additional_date"`
-	RecordCrackedDate             string   `json:"record_cracked_date"`
-	RecordModificationDate        string   `json:"record_modification_date"`
-	SourceFile                    string   `json:"source_file"`
+	Id                            interface{} `bson:"_id" json:"_id"`
+	DocumentId                    string      `bson:"document_id" json:"document_id"`
+	SourceId                      int         `bson:"source_id" json:"source_id"`
+	SpycloudPublishDate           string      `bson:"spycloud_publish_date" json:"spycloud_publish_date"`
+	Severity                      int         `bson:"severity" json:"severity"`
+	ActiveInvestor                string      `bson:"active_investor" json:"active_investor"`
+	Address1                      string      `bson:"address_1" json:"address_1"`
+	Address2                      string      `bson:"address_2" json:"address_2"`
+	Age                           string      `bson:"age" json:"age"`
+	Birthplace                    string      `bson:"birthplace" json:"birthplace"`
+	BuysOnline                    string      `bson:"buys_online" json:"buys_online"`
+	CatOwner                      string      `bson:"cat_owner" json:"cat_owner"`
+	ChristianFamily               string      `bson:"christian_family" json:"christian_family"`
+	City                          string      `bson:"city" json:"city"`
+	CompanyName                   string      `bson:"company_name" json:"company_name"`
+	Country                       string      `bson:"country" json:"country"`
+	County                        string      `bson:"county" json:"county"`
+	CreditRating                  string      `bson:"credit_rating" json:"credit_rating"`
+	DateOfDeath                   string      `bson:"date_of_death" json:"date_of_death"`
+	DeviceModel                   string      `bson:"device_model" json:"device_model"`
+	Dob                           string      `bson:"dob" json:"dob"`
+	DogOwner                      string      `bson:"dog_owner" json:"dog_owner"`
+	DriversLicense                string      `bson:"drivers_license" json:"drivers_license"`
+	EcFirstName                   string      `bson:"ec_first_name" json:"ec_first_name"`
+	EcLastName                    string      `bson:"ec_last_name" json:"ec_last_name"`
+	EcPhone                       string      `bson:"ec_phone" json:"ec_phone"`
+	EcPostalCode                  string      `bson:"ec_postal_code" json:"ec_postal_code"`
+	EcRelation                    string      `bson:"ec_relation" json:"ec_relation"`
+	Education                     string      `bson:"education" json:"education"`
+	EstimatedIncome               string      `bson:"estimated_income" json:"estimated_income"`
+	EthnicGroup                   string      `bson:"ethnic_group" json:"ethnic_group"`
+	Ethnicity                     string      `bson:"ethnicity" json:"ethnicity"`
+	Fax                           string      `bson:"fax" json:"fax"`
+	FirstName                     string      `bson:"first_name" json:"first_name"`
+	Gender                        string      `bson:"gender" json:"gender"`
+	Geolocation                   string      `bson:"geolocation" json:"geolocation"`
+	Grandchildren                 string      `bson:"grandchildren" json:"grandchildren"`
+	HasAirConditioning            string      `bson:"has_air_conditioning" json:"has_air_conditioning"`
+	HasAmexCard                   string      `bson:"has_amex_card" json:"has_amex_card"`
+	HasCreditCards                string      `bson:"has_credit_cards" json:"has_credit_cards"`
+	HasChildren                   string      `bson:"has_children" json:"has_children"`
+	HasDiscoverCard               string      `bson:"has_discover_card" json:"has_discover_card"`
+	HasMasterCard                 string      `bson:"has_master_card" json:"has_master_card"`
+	HasPets                       string      `bson:"has_pets" json:"has_pets"`
+	HasSwimmingPool               string      `bson:"has_swimming_pool" json:"has_swimming_pool"`
+	HasVisaCard                   string      `bson:"has_visa_card" json:"has_visa_card"`
+	HobbiesAndInterests           string      `bson:"hobbies_and_interests" json:"hobbies_and_interests"`
+	HomePage                      string      `bson:"home_page" json:"home_page"`
+	HomeBuiltYear                 string      `bson:"home_built_year" json:"home_built_year"`
+	HomePurchaseDate              string      `bson:"home_purchase_date" json:"home_purchase_date"`
+	HomePurchasePrice             string      `bson:"home_purchase_price" json:"home_purchase_price"`
+	HomeTransactionType           string      `bson:"home_transaction_type" json:"home_transaction_type"`
+	HomeValue                     string      `bson:"home_value" json:"home_value"`
+	Industry                      string      `bson:"industry" json:"industry"`
+	Isp                           string      `bson:"isp" json:"isp"`
+	InvestmentsPersonal           string      `bson:"investments_personal" json:"investments_personal"`
+	IPAddresses                   []string    `bson:"ip_addresses" json:"ip_addresses"`
+	IsSmoker                      string      `bson:"is_smoker" json:"is_smoker"`
+	Language                      string      `bson:"language" json:"language"`
+	LastName                      string      `bson:"last_name" json:"last_name"`
+	MaritalStatus                 string      `bson:"marital_status" json:"marital_status"`
+	MiddleName                    string      `bson:"middle_name" json:"middle_name"`
+	MortgageAmount                string      `bson:"mortgage_amount" json:"mortgage_amount"`
+	MortgageLenderName            string      `bson:"mortgage_lender_name" json:"mortgage_lender_name"`
+	MortgageLoanType              string      `bson:"mortgage_loan_type" json:"mortgage_loan_type"`
+	MortgageRate                  string      `bson:"mortgage_rate" json:"mortgage_rate"`
+	NameSuffix                    string      `bson:"name_suffix" json:"name_suffix"`
+	NationalId                    string      `bson:"national_id" json:"national_id"`
+	NetWorth                      string      `bson:"net_worth" json:"net_worth"`
+	NumberChildren                string      `bson:"number_children" json:"number_children"`
+	PassportCountry               string      `bson:"passport_country" json:"passport_country"`
+	PassportExpDate               string      `bson:"passport_exp_date" json:"passport_exp_date"`
+	PassportIssueDate             string      `bson:"passport_issue_date" json:"passport_issue_date"`
+	PassportNumber                string      `bson:"passport_number" json:"passport_number"`
+	PayableTo                     string      `bson:"payable_to" json:"payable_to"`
+	Phone                         string      `bson:"phone" json:"phone"`
+	PoliticalAffiliation          string      `bson:"political_affiliation" json:"political_affiliation"`
+	PostalCode                    string      `bson:"postal_code" json:"postal_code"`
+	Religion                      string      `bson:"religion" json:"religion"`
+	ResidenceLengthYears          string      `bson:"residence_length_years" json:"residence_length_years"`
+	SewerType                     string      `bson:"sewer_type" json:"sewer_type"`
+	SingleParent                  string      `bson:"single_parent" json:"single_parent"`
+	SocialSecurityNumber          string      `bson:"social_security_number" json:"social_security_number"`
+	SsnLastFour                   string      `bson:"ssn_last_four" json:"ssn_last_four"`
+	State                         string      `bson:"state" json:"state"`
+	Timezone                      string      `bson:"timezone" json:"timezone"`
+	Title                         string      `bson:"title" json:"title"`
+	VehicleIdentificationNumber   string      `bson:"vehicle_identification_number" json:"vehicle_identification_number"`
+	VehicleMake                   string      `bson:"vehicle_make" json:"vehicle_make"`
+	VehicleModel                  string      `bson:"vehicle_model" json:"vehicle_model"`
+	VoterId                       string      `bson:"voter_id" json:"voter_id"`
+	VoterRegistrationDate         string      `bson:"voter_registration_date" json:"voter_registration_date"`
+	WaterType                     string      `bson:"water_type" json:"water_type"`
+	SocialAim                     []string    `bson:"social_aim" json:"social_aim"`
+	SocialAboutme                 []string    `bson:"social_aboutme" json:"social_aboutme"`
+	SocialAgnellist               []string    `bson:"social_agnellist" json:"social_agnellist"`
+	SocialBehance                 []string    `bson:"social_behance" json:"social_behance"`
+	SocialCrunchbase              []string    `bson:"social_crunchbase" json:"social_crunchbase"`
+	SocialDribble                 []string    `bson:"social_dribble" json:"social_dribble"`
+	SocialFacebook                []string    `bson:"social_facebook" json:"social_facebook"`
+	SocialFlickr                  []string    `bson:"social_flickr" json:"social_flickr"`
+	SocialFoursquare              []string    `bson:"social_foursquare" json:"social_foursquare"`
+	SocialGithub                  []string    `bson:"social_github" json:"social_github"`
+	SocialGitlab                  []string    `bson:"social_gitlab" json:"social_gitlab"`
+	SocialGravatar                []string    `bson:"social_gravatar" json:"social_gravatar"`
+	SocialGoogle                  []string    `bson:"social_google" json:"social_google"`
+	SocialIcq                     []string    `bson:"social_icq" json:"social_icq"`
+	SocialIndeed                  []string    `bson:"social_indeed" json:"social_indeed"`
+	SocialInstagram               []string    `bson:"social_instagram" json:"social_instagram"`
+	SocialKlout                   []string    `bson:"social_klout" json:"social_klout"`
+	SocialLindin                  []string    `bson:"social_lindin" json:"social_lindin"`
+	SocialMedium                  []string    `bson:"social_medium" json:"social_medium"`
+	SocialMeetup                  []string    `bson:"social_meetup" json:"social_meetup"`
+	SocialMsn                     []string    `bson:"social_msn" json:"social_msn"`
+	SocialMyspace                 []string    `bson:"social_myspace" json:"social_myspace"`
+	SocialOther                   []string    `bson:"social_other" json:"social_other"`
+	SocialPintrest                []string    `bson:"social_pintrest" json:"social_pintrest"`
+	SocialQuora                   []string    `bson:"social_quora" json:"social_quora"`
+	SocialReddit                  []string    `bson:"social_reddit" json:"social_reddit"`
+	SocialSkype                   []string    `bson:"social_skype" json:"social_skype"`
+	SocialSoundcloud              []string    `bson:"social_soundcloud" json:"social_soundcloud"`
+	SocialStackoverflow           []string    `bson:"social_stackoverflow" json:"social_stackoverflow"`
+	SocialSteam                   []string    `bson:"social_steam" json:"social_steam"`
+	SocialTelegram                []string    `bson:"social_telegram" json:"social_telegram"`
+	SocialTwitter                 []string    `bson:"social_twitter" json:"social_twitter"`
+	SocialViemo                   []string    `bson:"social_viemo" json:"social_viemo"`
+	SocialWeibo                   []string    `bson:"social_weibo" json:"social_weibo"`
+	SocialWhatsapp                []string    `bson:"social_whatsapp" json:"social_whatsapp"`
+	SocialWordpress               []string    `bson:"social_wordpress" json:"social_wordpress"`
+	SocialXing                    []string    `bson:"social_xing" json:"social_xing"`
+	SocialYahoo                   []string    `bson:"social_yahoo" json:"social_yahoo"`
+	SocialYoutube                 []string    `bson:"social_youtube" json:"social_youtube"`
+	BankNumber                    string      `bson:"bank_number" json:"bank_number"`
+	CcBin                         string      `bson:"cc_bin" json:"cc_bin"`
+	CcCode                        string      `bson:"cc_code" json:"cc_code"`
+	CcExpiration                  string      `bson:"cc_expiration" json:"cc_expiration"`
+	CcLastFour                    string      `bson:"cc_last_four" json:"cc_last_four"`
+	CcNumber                      string      `bson:"cc_number" json:"cc_number"`
+	CcType                        string      `bson:"cc_type" json:"cc_type"`
+	Taxid                         string      `bson:"taxid" json:"taxid"`
+	BotnetId                      string      `bson:"botnet_id" json:"botnet_id"`
+	FromCookiesData               string      `bson:"from_cookies_data" json:"from_cookies_data"`
+	FromPostData                  string      `bson:"from_post_data" json:"from_post_data"`
+	InfectedMachineId             string      `bson:"infected_machine_id" json:"infected_machine_id"`
+	InfectedTime                  string      `bson:"infected_time" json:"infected_time"`
+	LogonServer                   string      `bson:"logon_server" json:"logon_server"`
+	SystemInstallDate             string      `bson:"system_install_date" json:"system_install_date"`
+	SystemModel                   string      `bson:"system_model" json:"system_model"`
+	TargetDomain                  string      `bson:"target_domain" json:"target_domain"`
+	TargetUrl                     string      `bson:"target_url" json:"target_url"`
+	UserAgent                     string      `bson:"user_agent" json:"user_agent"`
+	UserBrowser                   string      `bson:"user_browser" json:"user_browser"`
+	UserHostname                  string      `bson:"user_hostname" json:"user_hostname"`
+	UserOs                        string      `bson:"user_os" json:"user_os"`
+	UserSysDomain                 string      `bson:"user_sys_domain" json:"user_sys_domain"`
+	UserSysRegisteredOrganization string      `bson:"user_sys_registered_organization" json:"user_sys_registered_organization"`
+	UserSysRegisteredOwner        string      `bson:"user_sys_registered_owner" json:"user_sys_registered_owner"`
+	AccountCaption                string      `bson:"account_caption" json:"account_caption"`
+	AccountImageUrl               string      `bson:"account_image_url" json:"account_image_url"`
+	AccountLastActivityTime       string      `bson:"account_last_activity_time" json:"account_last_activity_time"`
+	AccountLoginTime              string      `bson:"account_login_time" json:"account_login_time"`
+	AccountModificationTime       string      `bson:"account_modification_time" json:"account_modification_time"`
+	AccountNickname               string      `bson:"account_nickname" json:"account_nickname"`
+	AccountNotes                  string      `bson:"account_notes" json:"account_notes"`
+	AccountPasswordDate           string      `bson:"account_password_date" json:"account_password_date"`
+	AccountSecret                 string      `bson:"account_secret" json:"account_secret"`
+	AccountSecretQuestion         string      `bson:"account_secret_question" json:"account_secret_question"`
+	AccountSignupTime             string      `bson:"account_signup_time" json:"account_signup_time"`
+	AccountStatus                 string      `bson:"account_status" json:"account_status"`
+	AccountTitle                  string      `bson:"account_title" json:"account_title"`
+	AccountType                   string      `bson:"account_type" json:"account_type"`
+	BackupEmail                   string      `bson:"backup_email" json:"backup_email"`
+	BackupEmailUsername           string      `bson:"backup_email_username" json:"backup_email_username"`
+	Domain                        string      `bson:"domain" json:"domain"`
+	Email                         string      `bson:"email" json:"email"`
+	EmailDomain                   string      `bson:"email_domain" json:"email_domain"`
+	EmailUsername                 string      `bson:"email_username" json:"email_username"`
+	NumPosts                      int         `bson:"num_posts" json:"num_posts"`
+	Password                      string      `bson:"password" json:"password"`
+	PasswordPlaintext             string      `bson:"password_plaintext" json:"password_plaintext"`
+	PasswordType                  string      `bson:"password_type" json:"password_type"`
+	Salt                          string      `bson:"salt" json:"salt"`
+	Service                       string      `bson:"service" json:"service"`
+	ServiceExpiration             string      `bson:"service_expiration" json:"service_expiration"`
+	Username                      string      `bson:"username" json:"username"`
+	EmailStatus                   string      `bson:"email_status" json:"email_status"`
+	CrmLastActivity               string      `bson:"crm_last_activity" json:"crm_last_activity"`
+	CrmContactCreated             string      `bson:"crm_contact_created" json:"crm_contact_created"`
+	CompanyWebSite                string      `bson:"company_web_site" json:"company_web_site"`
+	CompanyRevenue                string      `bson:"company_revenue" json:"company_revenue"`
+	Employees                     string      `bson:"employees" json:"employees"`
+	JobTitle                      string      `bson:"job_title" json:"job_title"`
+	JonLevel                      string      `bson:"jon_level" json:"jon_level"`
+	JobStartDate                  string      `bson:"job_start_date" json:"job_start_date"`
+	LinkedinNumberConnections     string      `bson:"linkedin_number_connections" json:"linkedin_number_connections"`
+	NacisCode                     string      `bson:"nacis_code" json:"nacis_code"`
+	SicCode                       string      `bson:"sic_code" json:"sic_code"`
+	HealthInsuranceId             string      `bson:"health_insurance_id" json:"health_insurance_id"`
+	HealthInsuranceProvider       string      `bson:"health_insurance_provider" json:"health_insurance_provider"`
+	Desc                          string      `bson:"desc" json:"desc"`
+	Guid                          string      `bson:"guid" json:"guid"`
+	PastbinKey                    string      `bson:"pastbin_key" json:"pastbin_key"`
+	RecordAdditionalDate          string      `bson:"record_additional_date" json:"record_additional_date"`
+	RecordCrackedDate             string      `bson:"record_cracked_date" json:"record_cracked_date"`
+	RecordModificationDate        string      `bson:"record_modification_date" json:"record_modification_date"`
+	SourceFile                    string      `bson:"source_file" json:"source_file"`
+}
+
+type BreachRecordMongoDb struct {
+	Id                            interface{} `bson:"_id" json:"_id"`
+	DocumentId                    string      `bson:"document_id" json:"document_id"`
+	SourceId                      int         `bson:"source_id" json:"source_id"`
+	SpycloudPublishDate           time.Time   `bson:"spycloud_publish_date" json:"spycloud_publish_date"`
+	Severity                      int         `bson:"severity" json:"severity"`
+	ActiveInvestor                string      `bson:"active_investor" json:"active_investor"`
+	Address1                      string      `bson:"address_1" json:"address_1"`
+	Address2                      string      `bson:"address_2" json:"address_2"`
+	Age                           string      `bson:"age" json:"age"`
+	Birthplace                    string      `bson:"birthplace" json:"birthplace"`
+	BuysOnline                    string      `bson:"buys_online" json:"buys_online"`
+	CatOwner                      string      `bson:"cat_owner" json:"cat_owner"`
+	ChristianFamily               string      `bson:"christian_family" json:"christian_family"`
+	City                          string      `bson:"city" json:"city"`
+	CompanyName                   string      `bson:"company_name" json:"company_name"`
+	Country                       string      `bson:"country" json:"country"`
+	County                        string      `bson:"county" json:"county"`
+	CreditRating                  string      `bson:"credit_rating" json:"credit_rating"`
+	DateOfDeath                   time.Time   `bson:"date_of_death" json:"date_of_death"`
+	DeviceModel                   string      `bson:"device_model" json:"device_model"`
+	Dob                           time.Time   `bson:"dob" json:"dob"`
+	DogOwner                      string      `bson:"dog_owner" json:"dog_owner"`
+	DriversLicense                string      `bson:"drivers_license" json:"drivers_license"`
+	EcFirstName                   string      `bson:"ec_first_name" json:"ec_first_name"`
+	EcLastName                    string      `bson:"ec_last_name" json:"ec_last_name"`
+	EcPhone                       string      `bson:"ec_phone" json:"ec_phone"`
+	EcPostalCode                  string      `bson:"ec_postal_code" json:"ec_postal_code"`
+	EcRelation                    string      `bson:"ec_relation" json:"ec_relation"`
+	Education                     string      `bson:"education" json:"education"`
+	EstimatedIncome               string      `bson:"estimated_income" json:"estimated_income"`
+	EthnicGroup                   string      `bson:"ethnic_group" json:"ethnic_group"`
+	Ethnicity                     string      `bson:"ethnicity" json:"ethnicity"`
+	Fax                           string      `bson:"fax" json:"fax"`
+	FirstName                     string      `bson:"first_name" json:"first_name"`
+	Gender                        string      `bson:"gender" json:"gender"`
+	Geolocation                   string      `bson:"geolocation" json:"geolocation"`
+	Grandchildren                 string      `bson:"grandchildren" json:"grandchildren"`
+	HasAirConditioning            string      `bson:"has_air_conditioning" json:"has_air_conditioning"`
+	HasAmexCard                   string      `bson:"has_amex_card" json:"has_amex_card"`
+	HasCreditCards                string      `bson:"has_credit_cards" json:"has_credit_cards"`
+	HasChildren                   string      `bson:"has_children" json:"has_children"`
+	HasDiscoverCard               string      `bson:"has_discover_card" json:"has_discover_card"`
+	HasMasterCard                 string      `bson:"has_master_card" json:"has_master_card"`
+	HasPets                       string      `bson:"has_pets" json:"has_pets"`
+	HasSwimmingPool               string      `bson:"has_swimming_pool" json:"has_swimming_pool"`
+	HasVisaCard                   string      `bson:"has_visa_card" json:"has_visa_card"`
+	HobbiesAndInterests           string      `bson:"hobbies_and_interests" json:"hobbies_and_interests"`
+	HomePage                      string      `bson:"home_page" json:"home_page"`
+	HomeBuiltYear                 string      `bson:"home_built_year" json:"home_built_year"`
+	HomePurchaseDate              time.Time   `bson:"home_purchase_date" json:"home_purchase_date"`
+	HomePurchasePrice             string      `bson:"home_purchase_price" json:"home_purchase_price"`
+	HomeTransactionType           string      `bson:"home_transaction_type" json:"home_transaction_type"`
+	HomeValue                     string      `bson:"home_value" json:"home_value"`
+	Industry                      string      `bson:"industry" json:"industry"`
+	Isp                           string      `bson:"isp" json:"isp"`
+	InvestmentsPersonal           string      `bson:"investments_personal" json:"investments_personal"`
+	IPAddresses                   []string    `bson:"ip_addresses" json:"ip_addresses"`
+	IsSmoker                      string      `bson:"is_smoker" json:"is_smoker"`
+	Language                      string      `bson:"language" json:"language"`
+	LastName                      string      `bson:"last_name" json:"last_name"`
+	MaritalStatus                 string      `bson:"marital_status" json:"marital_status"`
+	MiddleName                    string      `bson:"middle_name" json:"middle_name"`
+	MortgageAmount                string      `bson:"mortgage_amount" json:"mortgage_amount"`
+	MortgageLenderName            string      `bson:"mortgage_lender_name" json:"mortgage_lender_name"`
+	MortgageLoanType              string      `bson:"mortgage_loan_type" json:"mortgage_loan_type"`
+	MortgageRate                  string      `bson:"mortgage_rate" json:"mortgage_rate"`
+	NameSuffix                    string      `bson:"name_suffix" json:"name_suffix"`
+	NationalId                    string      `bson:"national_id" json:"national_id"`
+	NetWorth                      string      `bson:"net_worth" json:"net_worth"`
+	NumberChildren                string      `bson:"number_children" json:"number_children"`
+	PassportCountry               string      `bson:"passport_country" json:"passport_country"`
+	PassportExpDate               time.Time   `bson:"passport_exp_date" json:"passport_exp_date"`
+	PassportIssueDate             time.Time   `bson:"passport_issue_date" json:"passport_issue_date"`
+	PassportNumber                string      `bson:"passport_number" json:"passport_number"`
+	PayableTo                     string      `bson:"payable_to" json:"payable_to"`
+	Phone                         string      `bson:"phone" json:"phone"`
+	PoliticalAffiliation          string      `bson:"political_affiliation" json:"political_affiliation"`
+	PostalCode                    string      `bson:"postal_code" json:"postal_code"`
+	Religion                      string      `bson:"religion" json:"religion"`
+	ResidenceLengthYears          string      `bson:"residence_length_years" json:"residence_length_years"`
+	SewerType                     string      `bson:"sewer_type" json:"sewer_type"`
+	SingleParent                  string      `bson:"single_parent" json:"single_parent"`
+	SocialSecurityNumber          string      `bson:"social_security_number" json:"social_security_number"`
+	SsnLastFour                   string      `bson:"ssn_last_four" json:"ssn_last_four"`
+	State                         string      `bson:"state" json:"state"`
+	Timezone                      string      `bson:"timezone" json:"timezone"`
+	Title                         string      `bson:"title" json:"title"`
+	VehicleIdentificationNumber   string      `bson:"vehicle_identification_number" json:"vehicle_identification_number"`
+	VehicleMake                   string      `bson:"vehicle_make" json:"vehicle_make"`
+	VehicleModel                  string      `bson:"vehicle_model" json:"vehicle_model"`
+	VoterId                       string      `bson:"voter_id" json:"voter_id"`
+	VoterRegistrationDate         time.Time   `bson:"voter_registration_date" json:"voter_registration_date"`
+	WaterType                     string      `bson:"water_type" json:"water_type"`
+	SocialAim                     []string    `bson:"social_aim" json:"social_aim"`
+	SocialAboutme                 []string    `bson:"social_aboutme" json:"social_aboutme"`
+	SocialAgnellist               []string    `bson:"social_agnellist" json:"social_agnellist"`
+	SocialBehance                 []string    `bson:"social_behance" json:"social_behance"`
+	SocialCrunchbase              []string    `bson:"social_crunchbase" json:"social_crunchbase"`
+	SocialDribble                 []string    `bson:"social_dribble" json:"social_dribble"`
+	SocialFacebook                []string    `bson:"social_facebook" json:"social_facebook"`
+	SocialFlickr                  []string    `bson:"social_flickr" json:"social_flickr"`
+	SocialFoursquare              []string    `bson:"social_foursquare" json:"social_foursquare"`
+	SocialGithub                  []string    `bson:"social_github" json:"social_github"`
+	SocialGitlab                  []string    `bson:"social_gitlab" json:"social_gitlab"`
+	SocialGravatar                []string    `bson:"social_gravatar" json:"social_gravatar"`
+	SocialGoogle                  []string    `bson:"social_google" json:"social_google"`
+	SocialIcq                     []string    `bson:"social_icq" json:"social_icq"`
+	SocialIndeed                  []string    `bson:"social_indeed" json:"social_indeed"`
+	SocialInstagram               []string    `bson:"social_instagram" json:"social_instagram"`
+	SocialKlout                   []string    `bson:"social_klout" json:"social_klout"`
+	SocialLindin                  []string    `bson:"social_lindin" json:"social_lindin"`
+	SocialMedium                  []string    `bson:"social_medium" json:"social_medium"`
+	SocialMeetup                  []string    `bson:"social_meetup" json:"social_meetup"`
+	SocialMsn                     []string    `bson:"social_msn" json:"social_msn"`
+	SocialMyspace                 []string    `bson:"social_myspace" json:"social_myspace"`
+	SocialOther                   []string    `bson:"social_other" json:"social_other"`
+	SocialPintrest                []string    `bson:"social_pintrest" json:"social_pintrest"`
+	SocialQuora                   []string    `bson:"social_quora" json:"social_quora"`
+	SocialReddit                  []string    `bson:"social_reddit" json:"social_reddit"`
+	SocialSkype                   []string    `bson:"social_skype" json:"social_skype"`
+	SocialSoundcloud              []string    `bson:"social_soundcloud" json:"social_soundcloud"`
+	SocialStackoverflow           []string    `bson:"social_stackoverflow" json:"social_stackoverflow"`
+	SocialSteam                   []string    `bson:"social_steam" json:"social_steam"`
+	SocialTelegram                []string    `bson:"social_telegram" json:"social_telegram"`
+	SocialTwitter                 []string    `bson:"social_twitter" json:"social_twitter"`
+	SocialViemo                   []string    `bson:"social_viemo" json:"social_viemo"`
+	SocialWeibo                   []string    `bson:"social_weibo" json:"social_weibo"`
+	SocialWhatsapp                []string    `bson:"social_whatsapp" json:"social_whatsapp"`
+	SocialWordpress               []string    `bson:"social_wordpress" json:"social_wordpress"`
+	SocialXing                    []string    `bson:"social_xing" json:"social_xing"`
+	SocialYahoo                   []string    `bson:"social_yahoo" json:"social_yahoo"`
+	SocialYoutube                 []string    `bson:"social_youtube" json:"social_youtube"`
+	BankNumber                    string      `bson:"bank_number" json:"bank_number"`
+	CcBin                         string      `bson:"cc_bin" json:"cc_bin"`
+	CcCode                        string      `bson:"cc_code" json:"cc_code"`
+	CcExpiration                  string      `bson:"cc_expiration" json:"cc_expiration"`
+	CcLastFour                    string      `bson:"cc_last_four" json:"cc_last_four"`
+	CcNumber                      string      `bson:"cc_number" json:"cc_number"`
+	CcType                        string      `bson:"cc_type" json:"cc_type"`
+	Taxid                         string      `bson:"taxid" json:"taxid"`
+	BotnetId                      string      `bson:"botnet_id" json:"botnet_id"`
+	FromCookiesData               string      `bson:"from_cookies_data" json:"from_cookies_data"`
+	FromPostData                  string      `bson:"from_post_data" json:"from_post_data"`
+	InfectedMachineId             string      `bson:"infected_machine_id" json:"infected_machine_id"`
+	InfectedTime                  string      `bson:"infected_time" json:"infected_time"`
+	LogonServer                   string      `bson:"logon_server" json:"logon_server"`
+	SystemInstallDate             time.Time   `bson:"system_install_date" json:"system_install_date"`
+	SystemModel                   string      `bson:"system_model" json:"system_model"`
+	TargetDomain                  string      `bson:"target_domain" json:"target_domain"`
+	TargetUrl                     string      `bson:"target_url" json:"target_url"`
+	UserAgent                     string      `bson:"user_agent" json:"user_agent"`
+	UserBrowser                   string      `bson:"user_browser" json:"user_browser"`
+	UserHostname                  string      `bson:"user_hostname" json:"user_hostname"`
+	UserOs                        string      `bson:"user_os" json:"user_os"`
+	UserSysDomain                 string      `bson:"user_sys_domain" json:"user_sys_domain"`
+	UserSysRegisteredOrganization string      `bson:"user_sys_registered_organization" json:"user_sys_registered_organization"`
+	UserSysRegisteredOwner        string      `bson:"user_sys_registered_owner" json:"user_sys_registered_owner"`
+	AccountCaption                string      `bson:"account_caption" json:"account_caption"`
+	AccountImageUrl               string      `bson:"account_image_url" json:"account_image_url"`
+	AccountLastActivityTime       time.Time   `bson:"account_last_activity_time" json:"account_last_activity_time"`
+	AccountLoginTime              time.Time   `bson:"account_login_time" json:"account_login_time"`
+	AccountModificationTime       time.Time   `bson:"account_modification_time" json:"account_modification_time"`
+	AccountNickname               string      `bson:"account_nickname" json:"account_nickname"`
+	AccountNotes                  string      `bson:"account_notes" json:"account_notes"`
+	AccountPasswordDate           time.Time   `bson:"account_password_date" json:"account_password_date"`
+	AccountSecret                 string      `bson:"account_secret" json:"account_secret"`
+	AccountSecretQuestion         string      `bson:"account_secret_question" json:"account_secret_question"`
+	AccountSignupTime             time.Time   `bson:"account_signup_time" json:"account_signup_time"`
+	AccountStatus                 string      `bson:"account_status" json:"account_status"`
+	AccountTitle                  string      `bson:"account_title" json:"account_title"`
+	AccountType                   string      `bson:"account_type" json:"account_type"`
+	BackupEmail                   string      `bson:"backup_email" json:"backup_email"`
+	BackupEmailUsername           string      `bson:"backup_email_username" json:"backup_email_username"`
+	Domain                        string      `bson:"domain" json:"domain"`
+	Email                         string      `bson:"email" json:"email"`
+	EmailDomain                   string      `bson:"email_domain" json:"email_domain"`
+	EmailUsername                 string      `bson:"email_username" json:"email_username"`
+	NumPosts                      int         `bson:"num_posts" json:"num_posts"`
+	Password                      string      `bson:"password" json:"password"`
+	PasswordPlaintext             string      `bson:"password_plaintext" json:"password_plaintext"`
+	PasswordType                  string      `bson:"password_type" json:"password_type"`
+	Salt                          string      `bson:"salt" json:"salt"`
+	Service                       string      `bson:"service" json:"service"`
+	ServiceExpiration             string      `bson:"service_expiration" json:"service_expiration"`
+	Username                      string      `bson:"username" json:"username"`
+	EmailStatus                   string      `bson:"email_status" json:"email_status"`
+	CrmLastActivity               time.Time   `bson:"crm_last_activity" json:"crm_last_activity"`
+	CrmContactCreated             time.Time   `bson:"crm_contact_created" json:"crm_contact_created"`
+	CompanyWebSite                string      `bson:"company_web_site" json:"company_web_site"`
+	CompanyRevenue                string      `bson:"company_revenue" json:"company_revenue"`
+	Employees                     string      `bson:"employees" json:"employees"`
+	JobTitle                      string      `bson:"job_title" json:"job_title"`
+	JonLevel                      string      `bson:"jon_level" json:"jon_level"`
+	JobStartDate                  string      `bson:"job_start_date" json:"job_start_date"`
+	LinkedinNumberConnections     string      `bson:"linkedin_number_connections" json:"linkedin_number_connections"`
+	NacisCode                     string      `bson:"nacis_code" json:"nacis_code"`
+	SicCode                       string      `bson:"sic_code" json:"sic_code"`
+	HealthInsuranceId             string      `bson:"health_insurance_id" json:"health_insurance_id"`
+	HealthInsuranceProvider       string      `bson:"health_insurance_provider" json:"health_insurance_provider"`
+	Desc                          string      `bson:"desc" json:"desc"`
+	Guid                          string      `bson:"guid" json:"guid"`
+	PastbinKey                    string      `bson:"pastbin_key" json:"pastbin_key"`
+	RecordAdditionalDate          time.Time   `bson:"record_additional_date" json:"record_additional_date"`
+	RecordCrackedDate             time.Time   `bson:"record_cracked_date" json:"record_cracked_date"`
+	RecordModificationDate        time.Time   `bson:"record_modification_date" json:"record_modification_date"`
+	SourceFile                    string      `bson:"source_file" json:"source_file"`
 }
