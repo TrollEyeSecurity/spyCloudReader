@@ -13,10 +13,22 @@ import (
 func main() {
 	spyCloudResponse := flag.String("spyCloudResponse", "", "Enter the path to the spy cloud json file.")
 	months := flag.Int("months", 60, "Enter the number of months to look back.")
+	userPass := flag.Bool("userPass", false, "Use to create username/password output.")
+	dump2Mongo := flag.Bool("dump2Mongo", false, "Dump the output to mongodb")
 	flag.Parse()
 	content, contentErr := ioutil.ReadFile(*spyCloudResponse)
 	if contentErr != nil {
 		log.Fatal(contentErr)
+	}
+	if *dump2Mongo {
+		responseResults := &spycloud.ResponseResultsMongoDb{}
+		JsonUnmarshalErr := json.Unmarshal(content, responseResults)
+		if JsonUnmarshalErr != nil {
+			err := fmt.Errorf("breach record json-unmarshal error %v: %v", JsonUnmarshalErr, string(content))
+			log.Fatal(err)
+		}
+		dumpToMongo(responseResults)
+		return
 	}
 	responseResults := &spycloud.ResponseResults{}
 	JsonUnmarshalErr := json.Unmarshal(content, responseResults)
@@ -24,6 +36,7 @@ func main() {
 		err := fmt.Errorf("breach record json-unmarshal error %v: %v", JsonUnmarshalErr, string(content))
 		log.Fatal(err)
 	}
+
 	for _, breachRecord := range responseResults.Results {
 		t, err := time.Parse(time.RFC3339, breachRecord.SpycloudPublishDate)
 		if err != nil {
@@ -31,7 +44,14 @@ func main() {
 		}
 		count := monthsCountSince(t)
 		if *months >= *count {
-			if (len(breachRecord.Password) > 0) || (len(breachRecord.PasswordPlaintext) > 0) {
+			if *userPass {
+				if len(breachRecord.Username) > 0 && breachRecord.Password != "" {
+					fmt.Println(breachRecord.Username + "," + breachRecord.Password)
+				}
+				if len(breachRecord.Email) > 0 && breachRecord.Password != "" {
+					fmt.Println(breachRecord.Email + "," + breachRecord.Password)
+				}
+			} else {
 				fmt.Println()
 				if len(breachRecord.FirstName) > 0 {
 					fmt.Println("First Name: " + breachRecord.FirstName)
@@ -43,8 +63,12 @@ func main() {
 				if len(breachRecord.Email) > 0 {
 					fmt.Println("Email: " + breachRecord.Email)
 				}
-				fmt.Println("Password: " + breachRecord.Password)
-				fmt.Println("Password Plaintext: " + breachRecord.PasswordPlaintext)
+				if breachRecord.Password != "" {
+					fmt.Println("Password: " + breachRecord.Password)
+				}
+				if breachRecord.PasswordPlaintext != "" {
+					fmt.Println("Password Plaintext: " + breachRecord.PasswordPlaintext)
+				}
 				if len(breachRecord.PasswordType) > 0 {
 					fmt.Println("Password Type: " + breachRecord.PasswordType)
 				}
@@ -105,4 +129,10 @@ func monthsCountSince(createdAtTime time.Time) *int {
 		month = nextMonth
 	}
 	return &months
+}
+
+func dumpToMongo(responseResults *spycloud.ResponseResultsMongoDb) {
+	for _, breachRecord := range responseResults.Results {
+		spycloud.UpdateOrCreateBreachRecordFromString(&breachRecord)
+	}
 }
